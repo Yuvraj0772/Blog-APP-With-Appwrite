@@ -1,13 +1,13 @@
-import { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import './App.css'
-import authService from './appwrite/auth';
-import { Header, Footer } from './components';
-import {login, logout} from './store/authSlice';
+import authService from "./appwrite/auth"
+import {login, logout} from "./store/authSlice"
+import { Footer, Header } from './components'
+import { Outlet } from 'react-router-dom'
 
 function App() {
-  //console.log(import.meta.env.VITE_APPWRITE_URL);
-  
+
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -26,23 +26,21 @@ function App() {
     })
   }, [dispatch]);
 
-  return (
-    <>
-       <h1>React Mega Project</h1>
-       return !loading ? (
-        <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-          <div className='w-full block'>
-            <Header />
-            <main>
-              // outlet
-              
-            </main>
-            <Footer />
-          </div>
-        </div>
-       ) : null
-    </>
-  )
+
+return !loading ? (
+    <div className="min-h-screen flex flex-col bg-gray-400">
+
+        <Header />
+
+        <main className="flex-1">
+            <Outlet />
+        </main>
+
+        <Footer />
+
+    </div>
+) : null;
 }
 
-export default App
+export default App;
+

@@ -7,10 +7,13 @@ export class AuthService {
     client = new Client()
     account;
 
-    Constructor() {
-        this.client.setEndpoint(conf.appwriteurl).setProject(conf.appwriteprojectid)
-        this.account = new Account(this.client)
-    }
+    constructor() {
+    this.client
+        .setEndpoint(conf.appwriteUrl)
+        .setProject(conf.appwriteProjectId)
+
+    this.account = new Account(this.client)
+}
 
     async createAccount({email, password, name}) {
 
@@ -61,4 +64,4 @@ catch (error) {
 const authService = new AuthService();
 
 
-export default AuthService
+export default authService;
