@@ -19,16 +19,18 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
+
+    console.log("SUBMIT CLICKED", data);
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
             if (file) {
-                appwriteService.deleteFile(post.featuredImage);
+                appwriteService.deleteFile(post.featuredimage);
             }
 
             const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
-                featuredImage: file ? file.$id : undefined,
+                featuredimage: file ? file.$id : undefined,
             });
 
             if (dbPost) {
@@ -39,8 +41,8 @@ export default function PostForm({ post }) {
 
             if (file) {
                 const fileId = file.$id;
-                data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+                data.featuredimage = fileId;
+                const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
@@ -88,7 +90,11 @@ export default function PostForm({ post }) {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
                 />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+                <textarea
+    className="w-full border p-3"
+    placeholder="Content"
+    {...register("content", { required: true })}
+/>
             </div>
             <div className="w-1/3 px-2">
                 <Input
@@ -117,6 +123,7 @@ export default function PostForm({ post }) {
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
+
         </form>
     );
 }
